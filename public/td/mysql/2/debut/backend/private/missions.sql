@@ -38,8 +38,8 @@ CREATE TABLE `missions`
   `ref_agent`     INT(3) NOT NULL,
   `country`       VARCHAR(30) NOT NULL,
   `cost`          INT(4) NOT NULL,
-  `date_from`     VARCHAR(10) NOT NULL,
-  `date_to`       VARCHAR(10) NOT NULL,
+  `date_from`     VARCHAR(10) NOT NULL DEFAULT CURDATE(),
+  `date_to`       VARCHAR(10) NOT NULL DEFAULT CURDATE(),
   PRIMARY KEY (`id_mission`),
   INDEX `idx_country` (`country`)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
