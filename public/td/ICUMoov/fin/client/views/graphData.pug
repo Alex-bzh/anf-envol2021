@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  script(src='https://cdn.jsdelivr.net/npm/chart.js')
+  script(src='https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js')
+  div
+    canvas#myChart
+  script(type="text/javascript").
+    // Passage des variables: https://stackoverflow.com/questions/8698534/how-to-pass-variable-from-jade-template-file-to-a-script-file
+    const lights = JSON.parse('!{JSON.stringify(lights)}');
+    const temperatures =JSON.parse('!{JSON.stringify(temperatures)}');
+
+    // Séries temporelles: https://www.chartjs.org/docs/3.2.1/axes/cartesian/time.html
+    // Pour tracer 2 séries temporelles, voir: https://stackoverflow.com/questions/48143233/how-to-plot-multiple-time-series-in-chartjs-where-each-time-series-has-different (légèrement adapté)
+    // Lights
+    const lights_ds = {
+      label: 'Light',
+      borderColor: 'blue',
+      data: lights.map(
+        light_rec => [light_rec.date, light_rec.light]
+      ),
+    };
+
+    // Temperatures
+    const temperatures_ds = {
+      label: 'Temperature',
+      borderColor: 'red',
+      data: temperatures.map(
+        temperature_rec => [temperature_rec.date, temperature_rec.temperature]
+      ),
+    };
+
+    const config = {
+    type: 'line',
+      data: {
+        datasets: [lights_ds, temperatures_ds]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'time',
+          }
+        }
+      }
+    };
+
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
