@@ -80,9 +80,22 @@ const listLights = () => {
   }
 }
 
+
+const graphData = () => {
+  return async (req, res) => {
+    const temperatures = await Temperature.find();
+    const lights = await Light.find();
+    res.render('graphData', {
+      lights: lights,
+      temperatures: temperatures
+    });
+  };
+};
+
 module.exports = {
   listData,
   listTemperatures,
   listLights,
-  getData
+  getData,
+  graphData,
 };
